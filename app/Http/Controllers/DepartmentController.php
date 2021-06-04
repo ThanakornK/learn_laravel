@@ -15,7 +15,7 @@ class DepartmentController extends Controller
         // $departments = Department::all();
 
         //eloquent paging table
-        $departments = Department::paginate(3);
+        $departments = Department::paginate(2);
         //query builder query data
         //$departments = DB::table('departments')->get();
         //query builder paging table
@@ -25,7 +25,8 @@ class DepartmentController extends Controller
         //DB::table('departments')
         //->join('users','departments.user_id','user_id')
         //->select('departments.*','users.name')->paginate(5);
-        return view('admin.department.index',compact('departments'));
+        $trashDepartments = Department::onlyTrashed()->paginate(2);
+        return view('admin.department.index',compact('departments','trashDepartments'));
     }
 
     public function store(Request $request){
@@ -77,5 +78,21 @@ class DepartmentController extends Controller
         ]);
 
         return redirect()->route('department')->with('success','Update department name success.');
+    }
+
+    public function softdelete($id){
+        //eloquent
+        $delete = Department::find($id)->delete();
+        return redirect()->back()->with('success','Delete data success.');
+    }
+
+    public function restore($id){
+        $restore = Department::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('success','Restore data success.');
+    }
+
+    public function delete($id){
+        $delete = Department::onlyTrashed()->find($id)->forceDelete();
+        return redirect()->back()->with('success','Delete permanantly data success.');
     }
 }

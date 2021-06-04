@@ -22,6 +22,7 @@
                                     <th scope="col">Department name</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -38,6 +39,9 @@
                                     <td >
                                         <a href="{{url('/department/edit/'.$row->id)}}" class="btn btn-primary">Edit</a>
                                     </td>
+                                    <td >
+                                        <a href="{{url('/department/softdelete/'.$row->id)}}" class="btn btn-warning">Delete</a>
+                                    </td>
                                   </tr>
                                   @endforeach
                                 </tbody>
@@ -45,6 +49,40 @@
                               {{-- use for paging table --}}
                               {{$departments->links()}}
                         </div>
+
+                        @if(count($trashDepartments)>0)
+                        <div class="card my-2">
+                            <div class="card-header">Bin Table</div>
+                            <table class="table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Number</th>
+                                        <th scope="col">Department name</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Restore</th>
+                                        <th scope="col">Delete permanantly</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    @foreach($trashDepartments as $row)
+                                        <tr>
+                                            <th>{{$trashDepartments->firstItem()+$loop->index}}</th> 
+                                            <td>{{$row->department_name}}</td>
+                                            <td>{{$row->user->name}}</td>
+                                            <td >
+                                                <a href="{{url('/department/restore/'.$row->id)}}" class="btn btn-primary">Restore</a>
+                                            </td>
+                                            <td >
+                                                <a href="{{url('/department/delete/'.$row->id)}}" class="btn btn-danger">Delete permanantly</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            {{$trashDepartments->links()}}
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <div class="card">
