@@ -53,4 +53,29 @@ class DepartmentController extends Controller
         //DB::table('departments')->insert($data);
         return redirect()->back()->with('success','Insert data complete');
     }
+
+    public function edit($id){
+        //eloquent
+        $department = Department::find($id);
+        return view('admin.department.edit',compact('department'));
+    }
+
+    public function update(Request $request, $id){
+        $request->validate([
+            'department_name'=>'required|unique:departments|max:255'
+        ],
+        [
+            'department_name.required'=>"Please insert your department name.",
+            'department_name.max'=>"Max characters is 255 characters.",
+            'department_name.unique'=>"This department is already taker."
+        ]);
+
+        //update data
+        $update = Department::find($id)->update([
+            'department_name'=>$request->department_name,
+            'user_id'=>Auth::user()->id
+        ]);
+
+        return redirect()->route('department')->with('success','Update department name success.');
+    }
 }

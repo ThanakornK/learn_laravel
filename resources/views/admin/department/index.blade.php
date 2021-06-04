@@ -21,6 +21,7 @@
                                     <th scope="col">Number</th>
                                     <th scope="col">Department name</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Edit</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -34,6 +35,9 @@
                                     <td>{{$row->user->name}}</td>
                                     {{-- call join data by query builder --}}
                                     {{-- <td>{{$row->name}}</td> --}}
+                                    <td >
+                                        <a href="{{url('/department/edit/'.$row->id)}}" class="btn btn-primary">Edit</a>
+                                    </td>
                                   </tr>
                                   @endforeach
                                 </tbody>
