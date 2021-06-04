@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\ServiceController;
 // for query builder
 // use Illuminate\Support\Facades\DB; 
 
@@ -29,7 +30,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard',compact('users'));
 })->name('dashboard');
 
+//department
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+    //department
     Route::get('/department/all',[DepartmentController::class,'index'])->name('department');
     Route::post('/department/add',[DepartmentController::class,'store'])->name('addDepartment');
     Route::get('/department/edit/{id}',[DepartmentController::class,'edit']);
@@ -37,5 +40,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::get('/department/softdelete/{id}',[DepartmentController::class,'softdelete']);
     Route::get('/department/restore/{id}',[DepartmentController::class,'restore']);
     Route::get('/department/delete/{id}',[DepartmentController::class,'delete']);
+
+    //service
+    Route::get('/service/all',[ServiceController::class,'index'])->name('service');
+    Route::post('/service/add',[ServiceController::class,'store'])->name('addService');
+    Route::get('/service/edit/{id}',[ServiceController::class,'edit']);
+    Route::post('/service/update/{id}',[ServiceController::class,'update']);
+    Route::get('/service/delete/{id}',[ServiceController::class,'delete']);
 });
+
 
