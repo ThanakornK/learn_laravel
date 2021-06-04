@@ -15,6 +15,31 @@
                         @endif
                         <div class="card">
                             <div class="card-header">Department Table</div>
+                            <table class="table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Department name</th>
+                                    <th scope="col">Name</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($departments as $row)
+                                  <tr>
+                                      {{-- assign index row --}}
+                                    <th>{{$departments->firstItem()+$loop->index}}</th> 
+                                    <td>{{$row->department_name}}</td>
+                                    {{-- call name of user_id from user() in Department model--}}
+                                    {{-- eloquent --}}
+                                    <td>{{$row->user->name}}</td>
+                                    {{-- call join data by query builder --}}
+                                    {{-- <td>{{$row->name}}</td> --}}
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
+                              {{-- use for paging table --}}
+                              {{$departments->links()}}
                         </div>
                     </div>
                     <div class="col-md-4">

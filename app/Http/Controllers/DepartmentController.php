@@ -11,7 +11,21 @@ use Illuminate\Support\Facades\Auth;
 class DepartmentController extends Controller
 {
     public function index(){
-        return view('admin.department.index');
+        //query data by eloquent
+        // $departments = Department::all();
+
+        //eloquent paging table
+        $departments = Department::paginate(3);
+        //query builder query data
+        //$departments = DB::table('departments')->get();
+        //query builder paging table
+        //$departments = DB::table('departments')->paginate(3);
+
+        //join table with query builder
+        //DB::table('departments')
+        //->join('users','departments.user_id','user_id')
+        //->select('departments.*','users.name')->paginate(5);
+        return view('admin.department.index',compact('departments'));
     }
 
     public function store(Request $request){
